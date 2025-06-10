@@ -1,0 +1,27 @@
+{
+  "mode": "All",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.BotService/botServices"
+        },
+        {
+          "field": "Microsoft.BotService/botServices/publicNetworkAccess",
+          "equals": "Enabled"
+        }
+      ]
+    },
+    "then": {
+      "effect": "Deny"
+    }
+  },
+  "parameters": {},
+  "displayName": "Deny Bot Service with Public Network Access Enabled",
+  "description": "Ensures that all Bot Services have public network access disabled by denying deployments where it is enabled.",
+  "metadata": {
+    "category": "Networking",
+    "version": "1.0.0"
+  }
+}
