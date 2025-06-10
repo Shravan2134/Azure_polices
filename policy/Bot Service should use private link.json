@@ -1,0 +1,27 @@
+{
+  "mode": "All",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.BotService/botServices"
+        },
+        {
+          "field": "Microsoft.BotService/botServices/privateEndpointConnections[*]",
+          "exists": "false"
+        }
+      ]
+    },
+    "then": {
+      "effect": "Deny"
+    }
+  },
+  "parameters": {},
+  "displayName": "Deny Bot Service Without Private Link",
+  "description": "Ensures that all Bot Services use Private Link by denying deployments without private endpoint connections.",
+  "metadata": {
+    "category": "Networking",
+    "version": "1.0.0"
+  }
+}
