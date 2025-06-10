@@ -1,0 +1,36 @@
+{
+  "properties": {
+    "displayName": "Deny Function App not using the latest HTTP version",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "Denies creation or update of Azure Function Apps if the latest HTTP version is not used.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Function App"
+    },
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "field": "kind",
+            "contains": "functionapp"
+          },
+          {
+            "not": {
+              "field": "Microsoft.Web/sites/siteConfig.http20Enabled",
+              "equals": "true"
+            }
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  }
+}

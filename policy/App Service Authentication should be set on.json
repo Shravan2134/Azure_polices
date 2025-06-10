@@ -1,0 +1,38 @@
+{
+  "properties": {
+    "displayName": "Deny App Service without Authentication enabled",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "Denies creation or update of Azure App Services if authentication is not enabled.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "App Service"
+    },
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Web/sites/authEnabled",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.Web/sites/authEnabled",
+                "equals": "false"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  }
+}
