@@ -1,0 +1,40 @@
+{
+  "properties": {
+    "displayName": "Deny Load Balancer without Diagnostic Logs enabled",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "Denies creation or update of Azure Load Balancers if diagnostic logs are not enabled.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/loadBalancers"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Network/loadBalancers/diagnosticSettings[*]",
+                "exists": "false"
+              },
+              {
+                "count": {
+                  "field": "Microsoft.Network/loadBalancers/diagnosticSettings[*]"
+                },
+                "equals": 0
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  }
+}
