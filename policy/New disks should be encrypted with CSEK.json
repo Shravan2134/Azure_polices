@@ -1,0 +1,38 @@
+{
+  "properties": {
+    "displayName": "Deny new disks without Customer-Managed Keys (CSEK) encryption",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "Denies creation or update of Azure managed disks if they are not encrypted with customer-managed keys (CSEK).",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/disks"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "Microsoft.Compute/disks/encryption.type",
+                "exists": "false"
+              },
+              {
+                "field": "Microsoft.Compute/disks/encryption.type",
+                "notEquals": "EncryptionAtRestWithCustomerKey"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  }
+}
